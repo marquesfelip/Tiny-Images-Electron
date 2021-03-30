@@ -1,0 +1,22 @@
+{
+  "name": "tiny-images",
+  "version": "1.0.0",
+  "main": "main.js",
+  "repository": "https://github.com/marquesfelip/Tiny-Images-Electron.git",
+  "author": "Felipe Marques <felipehost@hotmail.com>",
+  "description": "Tiny Images with Electron",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^12.0.2"
+  },
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \" Error: no test specified\" %% exit 1",
+    "debug": "electron . --debug",
+    "packwin32": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=../",
+    "packwin64": "electron-packager . --overwrite --platform=win32 --arch=x64 --out=../"
+  },
+  "dependencies": {
+    "glob": "^7.1.6"
+  }
+}
