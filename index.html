@@ -11,17 +11,34 @@
 
     <title>Tiny Images</title>
 </head>
-<body>
+<body class="container">
 
-        <h1>Hello World!</h1>
-        <p>
-            We are using Node.js <span id="node-version"></span>,
-            Chromium <span id="chrome-version"></span>,
-            Electron <span id="electron-version"></span>,
-            and Bootstrap 5.0.0 @Beta.
+    <header class="d-md-flex justify-content-md-center align-items-md-center mb-4" id="header-api-key">
+        <span class="fw-bold">SUA CHAVE API TINIFY</span>
+        <input type="text" id="user-api-key" value="">
+    </header>
 
-        </p>
+    <section>
+        <span class="h6">Selecione as imagens para compressão</span>
+        <div class="input-group mb-4">
+            <button class="btn btn-outline-secondary" id="btn-select-files" type="button">Selecionar arquivos</button>
+            <input class="form-control" id="input-selected-files" placeholder="Nenhum arquivo selecionado" disabled>
+        </div>
+    </section>
+
+    <section>
+        <span class="h6">Selecione a pasta onde serão salvas as imagens após a compressão</span>
+        <div class="input-group mb-4">
+            <button class="btn btn-outline-secondary" id="btn-select-folder" type="button">Selecionar pasta</button>
+            <input class="form-control" id="input-selected-folder" placeholder="Nenhuma pasta selecionada" disabled>
+        </div>
+    </section>
+
+    <section>
+        <button class="btn btn-outline-dark" id="btn-compress-images">Comprimir imagens</button>
+    </section>
 
     <script src="assets/libs/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>require('./renderer-process/renderer.js')</script>
 </body>
 </html>

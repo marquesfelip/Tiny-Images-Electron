@@ -9,18 +9,20 @@ const DEBUG = /--debug/.test(process.argv[2])
 let mainWindow = null
 
 function initialize() {
-    loadDemos()
+    loadFiles()
 
     function createWindow() {
         // Create the browser window.
         const WINDOW_OPTIONS = {
-            width: 1080,
-            minWidth: 900,
-            minHeight: 659,
+            width: 784,
+            minWidth: 784,
+            height: 380,
+            minHeight: 380,
             title: app.getName(),
             webPreferences: {
-                nodeIntegration: false,
-                preload: path.join(__dirname, 'preload.js')
+                nodeIntegration: true,
+                contextIsolation: false,
+                enableRemoteModule: true
             }
         }
 
@@ -46,7 +48,6 @@ function initialize() {
 
     app.whenReady().then(() => {
         createWindow()
-        mainWindow.maximize()
     })
 
     app.on('activate', () => {
@@ -59,15 +60,10 @@ function initialize() {
 
 }
 
-// Require each JS file in the main-process dir
-function loadDemos() {
+// Require each JS file in the main-process/renderer-process dir
+function loadFiles() {
     const MAIN_PROCESS_FILES = glob.sync(path.join(__dirname, 'main-process/**/*.js'))
     MAIN_PROCESS_FILES.forEach((file) => {
-        require(file)
-    })
-
-    const RENDERER_PROCESS_FILES = glob.sync(path.join(__dirname, 'renderer-process/**/*.js'))
-    RENDERER_PROCESS_FILES.forEach((file) => {
         require(file)
     })
 }
