@@ -17,6 +17,7 @@
     "packwin64": "electron-packager . --overwrite --platform=win32 --arch=x64 --out=../"
   },
   "dependencies": {
-    "glob": "^7.1.6"
+    "glob": "^7.1.6",
+    "tinify": "^1.6.0-beta.2"
   }
 }
