@@ -17,7 +17,7 @@ ipcRenderer.on('selected-files', (event, paths) => {
 
     document.getElementById('input-selected-files').setAttribute('placeholder', `${paths.length} arquivo(s) selecionado(s)`)
 
-    // Push the new elements to the array
+    // Push the new elements
     paths.forEach(path => {
         ARRAY_IMGS.push(path)
     })
@@ -35,22 +35,36 @@ ipcRenderer.on('selected-folder', (event, path) => {
 BTN_COMPRESS_IMAGES.addEventListener('click', event => {
     tinify.key = document.getElementById('user-api-key').value
 
-    const COMPRESSED_IMGS_PATH = document.getElementById('input-selected-folder').value
-
-    if (ARRAY_IMGS.length > 0 && COMPRESSED_IMGS_PATH) {
-
-        ARRAY_IMGS.forEach(imgPath => {
-
-            let imageName = imgPath.split('\\')
-            imageName = imageName[imageName.length - 1]
-            console.log(imageName);
-            console.log(COMPRESSED_IMGS_PATH + '\\' + imageName)
-
-            const source = tinify.fromFile(imgPath)
-            source.toFile(COMPRESSED_IMGS_PATH + '\\' + imageName)
-        })
-
-    } else {
-        console.log('Verique se você selecionou pelo menos uma imagem e a pasta para salvar a nova imagem');
-    }
+    tinify.validate(err => {
+        if(err) {
+            ipcRenderer.send('alert-message', err.message, 'error', 'Validação da chave de API')
+        } else {
+            const PATH_TO_SAVE_IMGS = document.getElementById('input-selected-folder').value
+            if (ARRAY_IMGS.length > 0 && PATH_TO_SAVE_IMGS) {
+                compressImages(ARRAY_IMGS, PATH_TO_SAVE_IMGS)
+            } else {
+                ipcRenderer.send('alert-message', 'Verifique se você selecionou pelo menos uma imagem e a pasta para salvar as novas imagens.', 'info', 'Atenção!')
+            }
+        }
+    })
 })
+
+function compressImages(array, path) {
+    array.forEach(imgPath => {
+
+        let imageName = imgPath.split('\\')
+        imageName = imageName[imageName.length - 1]
+
+        ipcRenderer.sendSync()
+
+        const source = tinify.fromFile(imgPath)
+
+        source.toFile(`${path}\\${imageName}`)
+            .then(result => {
+                console.log(`Imagem '${imageName}' comprimida com sucesso!`)
+            }).catch(reject => {
+                console.log(`Whoops! Ocorreu algum problema ao comprimir a imagem ${imageName} \n Verifique a mensagem abaixo: \n ${reject}`);
+            })
+
+    })
+}

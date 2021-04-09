@@ -26,3 +26,11 @@ ipcMain.on('select-folder', event => {
         dialog.showErrorBox('Erro na seleção da pasta', 'Descrição do erro: \n' + err)
     })
 })
+
+ipcMain.on('alert-message', (event, message, type, title) => {
+    dialog.showMessageBox({
+        message: message,
+        type: type,
+        title: title
+    })
+})
